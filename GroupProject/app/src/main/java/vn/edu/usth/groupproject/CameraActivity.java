@@ -1,8 +1,11 @@
 package vn.edu.usth.groupproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -22,8 +25,13 @@ public class CameraActivity extends AppCompatActivity {
         });
 
         imagePicker = findViewById(R.id.image_picker);
-        imagePicker.setOnClickListener(v -> {
-            Toast.makeText(this, "Picking", Toast.LENGTH_SHORT).show();
+        imagePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CameraActivity.this, InspectionActivity.class);
+                startActivity(intent);
+                finish();
+            }
         });
     }
 }
