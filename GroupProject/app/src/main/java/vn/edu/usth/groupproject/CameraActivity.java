@@ -51,7 +51,9 @@ public class CameraActivity extends AppCompatActivity {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult o) {
-                        assert o.getData() != null;
+                        if (o.getResultCode() == CameraActivity.RESULT_CANCELED || o.getData() == null) {
+                            return;
+                        }
                         imgUri = o.getData().getData();
                         Intent move = new Intent(CameraActivity.this, InspectionActivity.class);
                         move.putExtra("imageUri", imgUri.toString());
