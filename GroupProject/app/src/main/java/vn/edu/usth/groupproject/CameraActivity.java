@@ -2,19 +2,14 @@ package vn.edu.usth.groupproject;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 
-public class MainActivity extends AppCompatActivity {
+public class CameraActivity extends AppCompatActivity {
 
-    private ImageButton captureButton, cancelButton, acceptButton;
+    private ImageButton captureButton, imagePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +19,11 @@ public class MainActivity extends AppCompatActivity {
         captureButton = findViewById(R.id.capture_button);
         captureButton.setOnClickListener(v -> {
             Toast.makeText(this, "Capturing...", Toast.LENGTH_SHORT).show();
+        });
+
+        imagePicker = findViewById(R.id.image_picker);
+        imagePicker.setOnClickListener(v -> {
+            Toast.makeText(this, "Picking", Toast.LENGTH_SHORT).show();
         });
     }
 }
