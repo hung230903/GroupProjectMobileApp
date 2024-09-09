@@ -2,6 +2,7 @@ package vn.edu.usth.groupproject;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import android.provider.MediaStore;
@@ -46,6 +48,12 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityObjectDetectionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        ConstraintLayout constraintLayout = findViewById(R.id.gradient_layout);
+        AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(1500);
+        animationDrawable.setExitFadeDuration(3000);
+        animationDrawable.start();
 
         captureButton = findViewById(R.id.capture_button);
         captureButton.setOnClickListener(v -> {
@@ -138,7 +146,7 @@ public class CameraActivity extends AppCompatActivity {
         );
     }
 
-    private void transferImage(Uri imgUri) {
+    private void transferImage(@NonNull Uri imgUri) {
         Intent move = new Intent(CameraActivity.this, InspectionActivity.class);
         move.putExtra("imageUri", imgUri.toString());
         startActivity(move);
