@@ -2,12 +2,26 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gradient_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@drawable/gradient_list"
-    android:id="@+id/gradient_layout"
+    android:fitsSystemWindows="true"
     tools:context=".CameraActivity">
+
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="345dp"
+        android:layout_height="506dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/detection_frame"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.475" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,9 +30,8 @@
         <androidx.camera.view.PreviewView
             android:id="@+id/camera_frame"
             android:layout_width="320dp"
-            android:layout_height="479dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/detection_frame" />
+            android:layout_height="480dp"
+            android:layout_centerInParent="true" />
 
         <ImageButton
             android:id="@+id/capture_button"
@@ -34,14 +47,14 @@
 
         <ImageButton
             android:id="@+id/image_picker"
-            android:contentDescription="Image picker"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignParentBottom="true"
+            android:layout_marginStart="30dp"
             android:layout_marginBottom="24dp"
             android:background="#00FFFFFF"
+            android:contentDescription="Image picker"
             android:scaleType="fitCenter"
-            android:layout_marginStart="30dp"
             android:src="@drawable/image_picker" />
 
     </RelativeLayout>

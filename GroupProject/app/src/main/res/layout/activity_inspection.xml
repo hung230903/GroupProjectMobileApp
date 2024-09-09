@@ -28,7 +28,22 @@
         android:src="@drawable/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.158"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.906" />
+
+    <ImageButton
+        android:id="@+id/upload_inspection"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@color/white_transparent"
+        android:contentDescription="Upload button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/upload"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.809"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.906" />

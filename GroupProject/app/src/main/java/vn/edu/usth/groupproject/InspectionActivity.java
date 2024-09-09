@@ -1,17 +1,18 @@
 package vn.edu.usth.groupproject;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class InspectionActivity extends AppCompatActivity {
-    ImageButton back;
+    ImageButton back, upload;
     ImageView img;
     Uri imgUri;
     String imgUriString;
@@ -31,13 +32,23 @@ public class InspectionActivity extends AppCompatActivity {
         }
 
         back = findViewById(R.id.back_inspection);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(InspectionActivity.this, CameraActivity.class);
-                startActivity(intent);
-                finish();
+        back.setOnClickListener(view -> {
+            if (image.getStringExtra("name") != null) {
+                deleteImage();
             }
+            Intent intent = new Intent(InspectionActivity.this, CameraActivity.class);
+            startActivity(intent);
+            finish();
         });
+
+        upload = findViewById(R.id.upload_inspection);
+        upload.setOnClickListener(view -> {
+            Toast.makeText(InspectionActivity.this, "Uploading...", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void deleteImage() {
+        ContentResolver contentResolver = getApplicationContext().getContentResolver();
+        contentResolver.delete(imgUri, null, null);
     }
 }

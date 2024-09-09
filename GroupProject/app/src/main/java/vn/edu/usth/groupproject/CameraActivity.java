@@ -49,12 +49,14 @@ public class CameraActivity extends AppCompatActivity {
         binding = ActivityObjectDetectionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Gradient Background Animation
         ConstraintLayout constraintLayout = findViewById(R.id.gradient_layout);
         AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
         animationDrawable.setEnterFadeDuration(1500);
         animationDrawable.setExitFadeDuration(3000);
         animationDrawable.start();
 
+        // Image Buttons
         captureButton = findViewById(R.id.capture_button);
         captureButton.setOnClickListener(v -> {
             capture();
@@ -66,6 +68,8 @@ public class CameraActivity extends AppCompatActivity {
             resultLauncher.launch(intent);
         });
         registerResult();
+
+        // Camera Provider
         ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderListenableFuture.addListener(new Runnable() {
             @Override
@@ -74,9 +78,7 @@ public class CameraActivity extends AppCompatActivity {
                     cameraProvider = cameraProviderListenableFuture.get();
                     startCameraX(cameraProvider);
 
-                } catch (ExecutionException e) {
-                    throw new RuntimeException(e);
-                } catch (InterruptedException e) {
+                } catch (ExecutionException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -87,7 +89,7 @@ public class CameraActivity extends AppCompatActivity {
         if (imageCapture == null) {
             return;
         }
-        String name = System.currentTimeMillis() + "_content";
+        String name = System.currentTimeMillis() + "_ovcam";
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
@@ -106,7 +108,7 @@ public class CameraActivity extends AppCompatActivity {
         imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this), new ImageCapture.OnImageSavedCallback() {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                if (outputFileResults.getSavedUri() != null) transferImage(outputFileResults.getSavedUri());
+                if (outputFileResults.getSavedUri() != null) transferCameraImage(outputFileResults.getSavedUri(), name);
             }
 
             @Override
@@ -149,6 +151,14 @@ public class CameraActivity extends AppCompatActivity {
     private void transferImage(@NonNull Uri imgUri) {
         Intent move = new Intent(CameraActivity.this, InspectionActivity.class);
         move.putExtra("imageUri", imgUri.toString());
+        startActivity(move);
+        finish();
+    }
+
+    private void transferCameraImage(@NonNull Uri imgUri, String name) {
+        Intent move = new Intent(CameraActivity.this, InspectionActivity.class);
+        move.putExtra("imageUri", imgUri.toString());
+        move.putExtra("name", name);
         startActivity(move);
         finish();
     }
