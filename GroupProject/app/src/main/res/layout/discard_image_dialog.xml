@@ -55,6 +55,7 @@
                 android:layout_marginStart="12dp"
                 android:backgroundTint="#ff2c2c"
                 android:text="YES!"
+                android:textColor="@color/white"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
