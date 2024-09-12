@@ -2,11 +2,9 @@ package vn.edu.usth.groupproject;
 
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -21,8 +19,8 @@ public class InspectionActivity extends AppCompatActivity {
     ImageButton back, upload;
     ImageView img;
     Uri imgUri;
-    String imgUriString;
     Dialog dialog;
+    Intent image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +28,7 @@ public class InspectionActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_inspection);
 
+        // Dialog View
         dialog = new Dialog(InspectionActivity.this);
         dialog.setContentView(R.layout.discard_image_dialog);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -38,30 +37,20 @@ public class InspectionActivity extends AppCompatActivity {
         Button dialogCancel = dialog.findViewById(R.id.inspection_dialog_cancel);
         Button dialogYes = dialog.findViewById(R.id.inspection_dialog_yes);
 
-        dialogCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        dialogYes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        dialogCancel.setOnClickListener(view ->
+                dialog.dismiss());
+
+        dialogYes.setOnClickListener(view -> {
+            if (image.getStringExtra("name") != null) {
                 deleteImage();
-                goBack();
             }
+            goBack();
         });
 
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-
-            }
-        });
-
-        Intent image = getIntent();
+        // Get and Set Image from CameraActivity
+        image = getIntent();
         img = findViewById(R.id.img_inspection);
-        imgUriString = image.getStringExtra("imageUri");
+        String imgUriString = image.getStringExtra("imageUri");
         if (imgUriString != null) {
             imgUri = Uri.parse(imgUriString);
             img.setImageURI(imgUri);
@@ -69,18 +58,12 @@ public class InspectionActivity extends AppCompatActivity {
 
         back = findViewById(R.id.back_inspection);
         back.setOnClickListener(view -> {
-            // check if the image is from the app's camera or the gallery
-            if (image.getStringExtra("name") != null) {
-                dialog.show();
-            } else {
-                goBack();
-            }
+            dialog.show();
         });
 
         upload = findViewById(R.id.upload_inspection);
-        upload.setOnClickListener(view -> {
-            Toast.makeText(InspectionActivity.this, "Uploading...", Toast.LENGTH_SHORT).show();
-        });
+        upload.setOnClickListener(view ->
+                Toast.makeText(InspectionActivity.this, "Uploading...", Toast.LENGTH_SHORT).show());
     }
 
     private void goBack() {
