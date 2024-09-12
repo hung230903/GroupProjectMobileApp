@@ -21,6 +21,8 @@ public class InspectionActivity extends AppCompatActivity {
     Uri imgUri;
     Dialog dialog;
     Intent image;
+    Button dialogCancel, dialogYes;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +30,17 @@ public class InspectionActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_inspection);
 
+        // Get Image from CameraActivity
+        image = getIntent();
+
         // Dialog View
         dialog = new Dialog(InspectionActivity.this);
         dialog.setContentView(R.layout.discard_image_dialog);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(AppCompatResources.getDrawable(InspectionActivity.this, R.drawable.discard_dialog));
 
-        Button dialogCancel = dialog.findViewById(R.id.inspection_dialog_cancel);
-        Button dialogYes = dialog.findViewById(R.id.inspection_dialog_yes);
+        dialogCancel = dialog.findViewById(R.id.inspection_dialog_cancel);
+        dialogYes = dialog.findViewById(R.id.inspection_dialog_yes);
 
         dialogCancel.setOnClickListener(view ->
                 dialog.dismiss());
@@ -47,8 +52,6 @@ public class InspectionActivity extends AppCompatActivity {
             goBack();
         });
 
-        // Get and Set Image from CameraActivity
-        image = getIntent();
         img = findViewById(R.id.img_inspection);
         String imgUriString = image.getStringExtra("imageUri");
         if (imgUriString != null) {

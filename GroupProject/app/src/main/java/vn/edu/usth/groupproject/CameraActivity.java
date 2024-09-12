@@ -1,7 +1,9 @@
 package vn.edu.usth.groupproject;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -20,6 +22,7 @@ import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.provider.MediaStore;
@@ -34,6 +37,7 @@ import vn.edu.usth.groupproject.databinding.ActivityObjectDetectionBinding;
 
 
 public class CameraActivity extends AppCompatActivity {
+    private static final int CAMERA_PERMISSION_CODE = 1;
     ImageButton captureButton, imagePicker;
     Uri imgUri;
     ActivityResultLauncher<Intent> resultLauncher;
@@ -48,6 +52,8 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityObjectDetectionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
 
         // Gradient Background Animation
         ConstraintLayout constraintLayout = findViewById(R.id.gradient_layout);
@@ -67,9 +73,29 @@ public class CameraActivity extends AppCompatActivity {
             Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
             resultLauncher.launch(intent);
         });
+        registerCameraPermit();
         registerResult();
+    }
 
-        // Camera Provider
+    private void registerCameraPermit() {
+        if (this.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(CameraActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
+        } else {
+            provideCamera();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                provideCamera();
+            }
+        }
+    }
+
+    private void provideCamera() {
         ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderListenableFuture.addListener(new Runnable() {
             @Override
