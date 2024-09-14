@@ -8,4 +8,7 @@
 
     <string name="title_activity_inspection">InspectionActivity</string>
     <string name="discard_image_string">Do you want to discard the image?</string>
+    <string name="detected_animal">This is a dog!</string>
+    <string name="close">Close</string>
+
 </resources>
