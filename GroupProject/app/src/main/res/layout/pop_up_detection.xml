@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#80000000"> <!-- Semi-transparent background -->
+        android:background="#80000000">
 
         <LinearLayout
             android:layout_width="211dp"
@@ -39,8 +39,9 @@
                 android:layout_width="85dp"
                 android:layout_height="72dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/close"
+                android:layout_marginStart="45dp"
                 android:text="@string/close"
+                android:backgroundTint="#ff2c2c"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </RelativeLayout>
