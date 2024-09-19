@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -81,11 +80,11 @@ public class InspectionActivity extends AppCompatActivity {
         upload = findViewById(R.id.upload_inspection);
         upload.setOnClickListener(view -> {
             setContentView(R.layout.pop_up_detection);
-            setupSecondLayout();
+            setUpPopUpLayout();
         });
     }
 
-    private void setupSecondLayout() {
+    private void setUpPopUpLayout() {
         closeButton = findViewById(R.id.closeButton);
         closeButton.setOnClickListener(view -> {
             setContentView(R.layout.activity_inspection);
