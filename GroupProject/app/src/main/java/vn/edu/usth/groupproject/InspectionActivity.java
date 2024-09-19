@@ -29,10 +29,10 @@ public class InspectionActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_inspection);
 
-        // Get Image from CameraActivity
+        // Get Image from CameraActivity or Gallery
         image = getIntent();
+        loadInspectionLayout(); // Set up the first layout
 
-        // Dialog View
         dialog = new Dialog(InspectionActivity.this);
         dialog.setContentView(R.layout.discard_image_dialog);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -44,63 +44,13 @@ public class InspectionActivity extends AppCompatActivity {
         dialogCancel.setOnClickListener(view -> dialog.dismiss());
 
         dialogYes.setOnClickListener(view -> {
-            if (image.getStringExtra("name") != null) {
+            if (imgUri != null) {
                 deleteImage();
             }
             goBack();
         });
-
-        img = findViewById(R.id.img_inspection);
-        String imgUriString = image.getStringExtra("imageUri");
-        if (imgUriString != null) {
-            imgUri = Uri.parse(imgUriString);
-            img.setImageURI(imgUri);
-        }
-
-        back = findViewById(R.id.back_inspection);
-        back.setOnClickListener(view -> dialog.show());
-
-        upload = findViewById(R.id.upload_inspection);
-        upload.setOnClickListener(view -> {
-            // Switch to the second layout
-            setContentView(R.layout.pop_up_detection);
-
-            // Find the close button in the second layout and set up its click listener
-            closeButton = findViewById(R.id.closeButton);
-            closeButton.setOnClickListener(view1 -> {
-                // Switch back to the first (inspection) layout when close button is clicked
-                setContentView(R.layout.activity_inspection);
-                setupFirstLayout();  // Restore the logic and buttons in the first layout
-            });
-        });
     }
 
-    private void setupFirstLayout() {
-        // Re-setup everything related to the first layout
-        img = findViewById(R.id.img_inspection);
-        String imgUriString = image.getStringExtra("imageUri");
-        if (imgUriString != null) {
-            imgUri = Uri.parse(imgUriString);
-            img.setImageURI(imgUri);
-        }
-
-        back = findViewById(R.id.back_inspection);
-        back.setOnClickListener(view -> dialog.show());
-
-        upload = findViewById(R.id.upload_inspection);
-        upload.setOnClickListener(view -> {
-            // Switch to the second layout again
-            setContentView(R.layout.pop_up_detection);
-
-            // Set up the close button listener for the second layout again
-            closeButton = findViewById(R.id.closeButton);
-            closeButton.setOnClickListener(view1 -> {
-                // Switch back to the first layout
-                setContentView(R.layout.activity_inspection);
-                setupFirstLayout(); // Reinitialize first layout
-            });
-        });
-    }
 
     private void goBack() {
         Intent intent = new Intent(InspectionActivity.this, CameraActivity.class);
@@ -110,6 +60,36 @@ public class InspectionActivity extends AppCompatActivity {
 
     private void deleteImage() {
         ContentResolver contentResolver = getApplicationContext().getContentResolver();
-        contentResolver.delete(imgUri, null, null);
+        if (imgUri != null) {
+            contentResolver.delete(imgUri, null, null);
+        }
     }
+
+    private void loadInspectionLayout() {
+        setContentView(R.layout.activity_inspection);
+
+        img = findViewById(R.id.img_inspection);
+        String imgUriString = image.getStringExtra("imageUri");
+        if (imgUriString != null) {
+            imgUri = Uri.parse(imgUriString);
+            img.setImageURI(imgUri);
+        }
+
+        back = findViewById(R.id.back_inspection);
+        back.setOnClickListener(view -> dialog.show());
+
+        upload = findViewById(R.id.upload_inspection);
+        upload.setOnClickListener(view -> {
+            setContentView(R.layout.pop_up_detection);
+            setupSecondLayout();
+        });
+    }
+
+    private void setupSecondLayout() {
+        closeButton = findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(view -> {
+            loadInspectionLayout();
+        });
+    }
+
 }
