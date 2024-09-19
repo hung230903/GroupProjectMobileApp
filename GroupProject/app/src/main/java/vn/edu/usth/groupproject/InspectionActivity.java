@@ -21,8 +21,7 @@ public class InspectionActivity extends AppCompatActivity {
     Uri imgUri;
     Dialog dialog;
     Intent image;
-    Button dialogCancel, dialogYes;
-
+    Button dialogCancel, dialogYes, closeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +41,7 @@ public class InspectionActivity extends AppCompatActivity {
         dialogCancel = dialog.findViewById(R.id.inspection_dialog_cancel);
         dialogYes = dialog.findViewById(R.id.inspection_dialog_yes);
 
-        dialogCancel.setOnClickListener(view ->
-                dialog.dismiss());
+        dialogCancel.setOnClickListener(view -> dialog.dismiss());
 
         dialogYes.setOnClickListener(view -> {
             if (image.getStringExtra("name") != null) {
@@ -60,13 +58,48 @@ public class InspectionActivity extends AppCompatActivity {
         }
 
         back = findViewById(R.id.back_inspection);
-        back.setOnClickListener(view -> {
-            dialog.show();
-        });
+        back.setOnClickListener(view -> dialog.show());
 
         upload = findViewById(R.id.upload_inspection);
-        upload.setOnClickListener(view ->
-                Toast.makeText(InspectionActivity.this, "Uploading...", Toast.LENGTH_SHORT).show());
+        upload.setOnClickListener(view -> {
+            // Switch to the second layout
+            setContentView(R.layout.pop_up_detection);
+
+            // Find the close button in the second layout and set up its click listener
+            closeButton = findViewById(R.id.closeButton);
+            closeButton.setOnClickListener(view1 -> {
+                // Switch back to the first (inspection) layout when close button is clicked
+                setContentView(R.layout.activity_inspection);
+                setupFirstLayout();  // Restore the logic and buttons in the first layout
+            });
+        });
+    }
+
+    private void setupFirstLayout() {
+        // Re-setup everything related to the first layout
+        img = findViewById(R.id.img_inspection);
+        String imgUriString = image.getStringExtra("imageUri");
+        if (imgUriString != null) {
+            imgUri = Uri.parse(imgUriString);
+            img.setImageURI(imgUri);
+        }
+
+        back = findViewById(R.id.back_inspection);
+        back.setOnClickListener(view -> dialog.show());
+
+        upload = findViewById(R.id.upload_inspection);
+        upload.setOnClickListener(view -> {
+            // Switch to the second layout again
+            setContentView(R.layout.pop_up_detection);
+
+            // Set up the close button listener for the second layout again
+            closeButton = findViewById(R.id.closeButton);
+            closeButton.setOnClickListener(view1 -> {
+                // Switch back to the first layout
+                setContentView(R.layout.activity_inspection);
+                setupFirstLayout(); // Reinitialize first layout
+            });
+        });
     }
 
     private void goBack() {
