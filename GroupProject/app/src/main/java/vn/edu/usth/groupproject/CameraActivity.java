@@ -43,7 +43,6 @@ public class CameraActivity extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_CODE = 1;
     private static final int GALLERY_PERMISSION_CODE = 2;
     ImageButton captureButton, imagePicker;
-    Uri imgUri;
     ActivityResultLauncher<Intent> resultLauncher;
     ActivityObjectDetectionBinding binding;
     ProcessCameraProvider cameraProvider;
@@ -68,7 +67,8 @@ public class CameraActivity extends AppCompatActivity {
 
         // Image Buttons
         captureButton = findViewById(R.id.capture_button);
-        captureButton.setOnClickListener(v -> capture());
+        captureButton.setOnClickListener(v ->
+                capture());
 
         imagePicker = findViewById(R.id.image_picker);
         imagePicker.setOnClickListener(v -> {
@@ -130,6 +130,7 @@ public class CameraActivity extends AppCompatActivity {
                         openGallery();
                     }
                 }
+                break;
         }
     }
 
@@ -205,7 +206,7 @@ public class CameraActivity extends AppCompatActivity {
                     public void onActivityResult(ActivityResult o) {
                         if (o.getResultCode() == CameraActivity.RESULT_CANCELED || o.getData() == null)
                             return;
-                        imgUri = o.getData().getData();
+                        Uri imgUri = o.getData().getData();
                         if (imgUri != null) transferImage(imgUri);
                     }
                 }
@@ -215,6 +216,7 @@ public class CameraActivity extends AppCompatActivity {
     private void transferImage(@NonNull Uri imgUri) {
         Intent move = new Intent(CameraActivity.this, InspectionActivity.class);
         move.putExtra("imageUri", imgUri.toString());
+        move.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(move);
         finish();
     }

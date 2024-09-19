@@ -31,6 +31,15 @@ public class InspectionActivity extends AppCompatActivity {
 
         // Get Image from CameraActivity or Gallery
         image = getIntent();
+        // Set ImageView
+        img = findViewById(R.id.img_inspection);
+        String imgUriString = image.getStringExtra("imageUri");
+        if (imgUriString != null) {
+            imgUri = Uri.parse(imgUriString);
+            if (image.getStringExtra("name") == null)
+                getContentResolver().takePersistableUriPermission(imgUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            img.setImageURI(imgUri);
+        }
         loadInspectionLayout(); // Set up the first layout
 
         dialog = new Dialog(InspectionActivity.this);
@@ -44,7 +53,7 @@ public class InspectionActivity extends AppCompatActivity {
         dialogCancel.setOnClickListener(view -> dialog.dismiss());
 
         dialogYes.setOnClickListener(view -> {
-            if (imgUri != null) {
+            if (image.getStringExtra("name") != null) {
                 deleteImage();
             }
             goBack();
@@ -66,15 +75,6 @@ public class InspectionActivity extends AppCompatActivity {
     }
 
     private void loadInspectionLayout() {
-        setContentView(R.layout.activity_inspection);
-
-        img = findViewById(R.id.img_inspection);
-        String imgUriString = image.getStringExtra("imageUri");
-        if (imgUriString != null) {
-            imgUri = Uri.parse(imgUriString);
-            img.setImageURI(imgUri);
-        }
-
         back = findViewById(R.id.back_inspection);
         back.setOnClickListener(view -> dialog.show());
 
@@ -88,7 +88,10 @@ public class InspectionActivity extends AppCompatActivity {
     private void setupSecondLayout() {
         closeButton = findViewById(R.id.closeButton);
         closeButton.setOnClickListener(view -> {
+            setContentView(R.layout.activity_inspection);
+            img = findViewById(R.id.img_inspection);
             loadInspectionLayout();
+            img.setImageURI(imgUri);
         });
     }
 
