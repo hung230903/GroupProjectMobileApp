@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background_gradient_start">#FF0000</color>
-    <color name="background_gradient_end">#0000FF</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="white_transparent">#00FFFFFF</color>
+    <!-- Gradient Background Colors -->
+    <color name="background_gradient_start">#FF88C8</color> <!-- Light Pink -->
+    <color name="background_gradient_end">#FFCCE7</color> <!-- Light Peach -->
+
+    <!-- Basic Colors -->
+    <color name="black">#FF000000</color> <!-- Black -->
+    <color name="white">#FFFFFFFF</color> <!-- White -->
+    <color name="white_transparent">#00FFFFFF</color> <!-- Fully Transparent White -->
+
+    <!-- New Colors for the App Design -->
+    <color name="light_blue">#E0F7FA</color> <!-- Light Blue for background -->
+    <color name="dark_blue">#01579B</color> <!-- Dark Blue for top bar or buttons -->
+    <color name="light_gray">#F5F5F5</color> <!-- Light Gray for pet item background -->
+    <color name="dark_gray">#757575</color> <!-- Dark Gray for text or dividers -->
+    <color name="accent_color">#FFC107</color> <!-- Accent color for buttons or highlights -->
 </resources>

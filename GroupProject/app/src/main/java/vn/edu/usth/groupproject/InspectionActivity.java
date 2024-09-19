@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,8 @@ public class InspectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_inspection);
+
+
 
         // Get Image from CameraActivity or Gallery
         image = getIntent();
@@ -49,6 +52,7 @@ public class InspectionActivity extends AppCompatActivity {
         dialogCancel = dialog.findViewById(R.id.inspection_dialog_cancel);
         dialogYes = dialog.findViewById(R.id.inspection_dialog_yes);
 
+
         dialogCancel.setOnClickListener(view -> dialog.dismiss());
 
         dialogYes.setOnClickListener(view -> {
@@ -61,7 +65,7 @@ public class InspectionActivity extends AppCompatActivity {
 
 
     private void goBack() {
-        Intent intent = new Intent(InspectionActivity.this, CameraActivity.class);
+        Intent intent = new Intent(InspectionActivity.this, PetShopActivity.class);
         startActivity(intent);
         finish();
     }
@@ -87,10 +91,7 @@ public class InspectionActivity extends AppCompatActivity {
     private void setUpPopUpLayout() {
         closeButton = findViewById(R.id.closeButton);
         closeButton.setOnClickListener(view -> {
-            setContentView(R.layout.activity_inspection);
-            img = findViewById(R.id.img_inspection);
-            loadInspectionLayout();
-            img.setImageURI(imgUri);
+            setContentView(R.layout.activity_pet_shop);
         });
     }
 

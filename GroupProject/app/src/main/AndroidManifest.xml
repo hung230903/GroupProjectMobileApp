@@ -33,6 +33,11 @@
             android:label="@string/title_activity_inspection"
             android:theme="@style/Theme.GroupProject" />
         <activity
+            android:name=".PetShopActivity"
+            android:exported="false"
+            android:label="@string/title_activity_inspection"
+            android:theme="@style/Theme.GroupProject" />
+        <activity
             android:name=".CameraActivity"
             android:exported="true"
             android:theme="@style/Theme.GroupProject" >
