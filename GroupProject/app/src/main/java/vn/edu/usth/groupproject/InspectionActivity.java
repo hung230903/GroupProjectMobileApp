@@ -91,7 +91,6 @@ public class InspectionActivity extends AppCompatActivity {
             img = findViewById(R.id.img_inspection);
             loadInspectionLayout();
             img.setImageURI(imgUri);
-
         });
     }
 
