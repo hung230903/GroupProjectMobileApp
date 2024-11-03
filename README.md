@@ -7,3 +7,8 @@
     -Pop up layout: Nguyễn Huy Hùng(BI12-183)
     -Camera Acivity + Inspection Activity: Nguyễn Trường Sơn(BI12-388) + Nguyễn Huy Hùng(BI12-183) 
     -App Design: Nguyễn Trường Sơn(BI12-388) + Nguyễn Huy Hùng(BI12-183) + Lưu Bá Anh(BI12-028)
+    
+## For the api to work, you need to create your own server, here the guide's link:
+https://github.com/openvisionapi/ova-server
+
+The url to the server MAY change (I Haven't tested on others' machines), if so then you also need to change the url in the code
