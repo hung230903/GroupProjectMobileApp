@@ -8,6 +8,11 @@ import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.ext.SdkExtensions;
+import android.provider.MediaStore;
+import android.provider.Settings;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -25,12 +30,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import android.os.ext.SdkExtensions;
-import android.provider.MediaStore;
-import android.provider.Settings;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -158,7 +157,7 @@ public class CameraActivity extends AppCompatActivity {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
-        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/png");
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
             contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures");
@@ -178,6 +177,7 @@ public class CameraActivity extends AppCompatActivity {
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
+                System.out.println("Error: " + exception);
                 Toast.makeText(CameraActivity.this, "Error while taking photo", Toast.LENGTH_SHORT).show();
             }
         });
