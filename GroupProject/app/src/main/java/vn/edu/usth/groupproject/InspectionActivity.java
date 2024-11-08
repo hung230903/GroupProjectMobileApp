@@ -145,6 +145,7 @@ public class InspectionActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 System.out.println("Failed to make request: " + e);
+                runOnUiThread(() -> Toast.makeText(InspectionActivity.this, "Failed to make request.", Toast.LENGTH_SHORT).show());
             }
 
             @Override
@@ -183,7 +184,7 @@ public class InspectionActivity extends AppCompatActivity {
                             img.setImageBitmap(finalBitmap));
                     Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
                 } else {
-                    System.out.println("Request failed: " + response.message());
+                    runOnUiThread(() -> Toast.makeText(InspectionActivity.this, "Request failed: " + response.message(), Toast.LENGTH_SHORT).show());
                 }
             }
         });
@@ -199,6 +200,12 @@ public class InspectionActivity extends AppCompatActivity {
             paint.setColor(Color.RED);
             paint.setStrokeWidth(8);
             paint.setStyle(Paint.Style.STROKE);
+
+            if (predictions.length() == 0) {
+                runOnUiThread(() -> Toast.makeText(this, "No object detected", Toast.LENGTH_SHORT).show());
+                return;
+            }
+
 
             // Get the coordinates and draw
             for (int i = 0; i < predictions.length(); i++) {
