@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,11 +17,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.camera.core.impl.utils.Exif;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -110,6 +114,7 @@ public class InspectionActivity extends AppCompatActivity {
 
         upload = findViewById(R.id.upload_inspection);
         upload.setOnClickListener(view -> {
+            Toast.makeText(this, "Uploading image to server", Toast.LENGTH_SHORT).show();
             try {
                 postImage(imgUri);
             } catch (IOException e) {
@@ -168,7 +173,14 @@ public class InspectionActivity extends AppCompatActivity {
                     // Get the bounding box from the json and draw it to a bitmap
                     drawImageBoundingBox(json, bitmap);
 
+                    if (bitmap.getWidth() > bitmap.getHeight()) {
+                        Matrix matrix = new Matrix();
+                        matrix.postRotate(90);
+                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
+                                matrix, true);
+                    }
                     Bitmap finalBitmap = bitmap;
+
                     // Display the result on the main thread
                     runOnUiThread(() ->
                             img.setImageBitmap(finalBitmap));
