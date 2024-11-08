@@ -216,8 +216,17 @@ public class InspectionActivity extends AppCompatActivity {
                 int y2 = bbox.getInt("y2");
                 int y1 = bbox.getInt("y1");
 
+                String label = prediction.getString("label");
+                paint.setTextSize(100);
+
                 canvas.drawRect(x1, y1, x2, y2, paint);
                 System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
+
+                // Save the canvas before draw the rotated text
+                canvas.save();
+                canvas.rotate(-90, x1, y2);
+                canvas.drawText(label, x1-10, y2-10, paint);
+                canvas.restore();
             }
 
 
@@ -238,6 +247,7 @@ public class InspectionActivity extends AppCompatActivity {
                 outputStream.write(buffer, 0, bytesRead);
             }
         }
+        inputStream.close();
         return tempFile;
     }
 
